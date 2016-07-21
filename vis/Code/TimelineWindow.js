@@ -8,7 +8,7 @@ TimelineWindow = (function()
 {
 	var BORDER = 10;
 
-	var ROW_START_SIZE = 210;
+	var ROW_START_SIZE = 240;
 
 	var ROW_END_SIZE = 20;  // make room for scrollbar
 
@@ -23,9 +23,9 @@ TimelineWindow = (function()
 		this.ThreadRows = [ ];
 
 		// Create window and containers
-		this.Window = wm.AddWindow("Timeline", 10, 20, 100, 100);
+		this.Window = wm.AddWindow("Timeline", 10, 20, 100, 1000);
 		this.Window.ShowNoAnim();
-		this.TimelineContainer = this.Window.AddControlNew(new WM.Container(10, 10, 800, 160));
+		this.TimelineContainer = this.Window.AddControlNew(new WM.Container(10, 10, 800, 1000));
 		DOM.Node.AddClass(this.TimelineContainer.Node, "TimelineContainer");
 
 		var mouse_wheel_event = (/Firefox/i.test(navigator.userAgent)) ? "DOMMouseScroll" : "mousewheel";
@@ -64,12 +64,12 @@ TimelineWindow = (function()
 		// Resize window
 		var top = top_window.Position[1] + top_window.Size[1] + 10;
 		this.Window.SetPosition(10, top);
-		this.Window.SetSize(width - 2 * 10, 200);
+		this.Window.SetSize(width - 2 * 10, 1000);
 
 		// Resize controls
 		var parent_size = this.Window.Size;
 		this.TimelineContainer.SetPosition(BORDER, 10);
-		this.TimelineContainer.SetSize(parent_size[0] - 2 * BORDER, 160);
+		this.TimelineContainer.SetSize(parent_size[0] - 2 * BORDER, height - top - 50);
 
 		// Resize rows
 		var row_width = RowWidth(this);

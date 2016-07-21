@@ -198,8 +198,8 @@ body
     /* Pull .TimelineRowCanvas to the right of the label */
     float:left;
 
-    width: 140px;
-    height: 14px;
+    width: 170px;
+    height: 22px;
 }
 .TimelineRowCanvas
 {

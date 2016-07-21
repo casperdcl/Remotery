@@ -5,7 +5,7 @@ TitleWindow = (function()
 	{
 		this.Settings = settings;
 
-		this.Window = wm.AddWindow("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Remotery", 10, 10, 100, 100);
+		this.Window = wm.AddWindow("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Remotery", 10, 10, 400, 400);
 		this.Window.ShowNoAnim();
 
 		this.PingContainer = this.Window.AddControlNew(new WM.Container(4, -13, 10, 10));

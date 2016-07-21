@@ -22,7 +22,7 @@ TimelineRow = (function()
 
 	var CANVAS_Y_OFFSET = 0;
 	var CANVAS_BORDER = 1;
-	var SAMPLE_HEIGHT = 16;
+	var SAMPLE_HEIGHT = 24;
 	var SAMPLE_BORDER = 1;
 	var SAMPLE_Y_SPACING = SAMPLE_HEIGHT + SAMPLE_BORDER * 2;
 	var SAMPLE_Y_OFFSET = CANVAS_Y_OFFSET + CANVAS_BORDER + 1;
@@ -338,7 +338,7 @@ TimelineRow = (function()
 
 		var offset_x = x0;
 		var offset_y = SAMPLE_Y_OFFSET + (depth - 1) * SAMPLE_Y_SPACING;
-		var size_x = x1 - x0;
+		var size_x = Math.max(x1 - x0, 1);
 		var size_y = SAMPLE_HEIGHT;
 
 		// Normal rendering
@@ -357,7 +357,7 @@ TimelineRow = (function()
 		}
 
 		// Draw sample names clipped to the bounds of the sample
-		if (draw_text)
+		if (draw_text && size_x > 5)
 		{
 			ctx.save();
 			ctx.beginPath();
@@ -365,7 +365,7 @@ TimelineRow = (function()
 			ctx.clip();
 			ctx.font = "9px verdana";
 			ctx.fillStyle = "black";
-			ctx.fillText(sample.name, offset_x + 5.5, offset_y + 1.5 + 9);
+			ctx.fillText(sample.name + " " + (sample.us_length)/1000.0 + "ms", offset_x + 5.5, offset_y + 9.5);
 			ctx.restore();
 		}
 	}
