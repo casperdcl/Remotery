@@ -797,6 +797,11 @@ static rmtError VirtualMirrorBuffer_Constructor(VirtualMirrorBuffer* buffer, rmt
     }
 #else
     // Create a unique temporary filename in the shared memory folder
+#ifdef __ANDROID_CHROOT__
+    file_descriptor = fileno(fopen("temp-obwvN", "w+")); // nmkstemp(path);
+    if (file_descriptor < 0)
+        return RMT_ERROR_VIRTUAL_MEMORY_BUFFER_FAIL;
+#else
     file_descriptor = mkstemp(path);
     if (file_descriptor < 0)
         return RMT_ERROR_VIRTUAL_MEMORY_BUFFER_FAIL;
@@ -804,6 +809,7 @@ static rmtError VirtualMirrorBuffer_Constructor(VirtualMirrorBuffer* buffer, rmt
     // Delete the name
     if (unlink(path))
         return RMT_ERROR_VIRTUAL_MEMORY_BUFFER_FAIL;
+#endif
 
     // Set the file size to twice the buffer size
     // TODO: this 2x behaviour can be avoided with similar solution to Win/Mac
@@ -1656,7 +1662,7 @@ static void Buffer_Destructor(Buffer* buffer)
 }
 
 
-static rmtError Buffer_Write(Buffer* buffer, void* data, rmtU32 length)
+static rmtError Buffer_Write(Buffer* buffer, const void* data, rmtU32 length)
 {
     assert(buffer != NULL);
 
@@ -1918,7 +1924,7 @@ static rmtError HashTable_Resize(HashTable* table)
     for (rmtU32 i = 0; i < old_max_nb_slots; i++)
     {
         HashSlot* slot = old_slots + i;
-        if (slot->key != NULL)
+        if (slot->key)
             HashTable_Insert(table, slot->key, slot->key);
     }
 

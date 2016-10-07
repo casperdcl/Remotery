@@ -29,8 +29,9 @@ int main( ) {
 
     Remotery *rmt;
 
-    if( RMT_ERROR_NONE != rmt_CreateGlobalInstance(&rmt) ) {
-        return -1;
+    int r = rmt_CreateGlobalInstance(&rmt);
+    if( RMT_ERROR_NONE != r) {
+        return r;
     }
 
     while (sig == 0) {
