@@ -1321,8 +1321,8 @@ strncat_s (char *dest, rsize_t dmax, const char *src, rsize_t slen)
 errno_t
 strcpy_s(char *dest, rsize_t dmax, const char *src)
 {
-    rsize_t orig_dmax;
-    char *orig_dest;
+    // rsize_t orig_dmax;
+    // char *orig_dest;
     const char *overlap_bumper;
 
     if (dest == NULL) {
@@ -1347,8 +1347,8 @@ strcpy_s(char *dest, rsize_t dmax, const char *src)
     }
 
     /* hold base of dest in case src was not copied */
-    orig_dmax = dmax;
-    orig_dest = dest;
+    // orig_dmax = dmax;
+    // orig_dest = dest;
 
     if (dest < src) {
         overlap_bumper = src;
@@ -1691,11 +1691,13 @@ static rmtError Buffer_Write(Buffer* buffer, const void* data, rmtU32 length)
 }
 
 
+/*
 static rmtError Buffer_WriteString(Buffer* buffer, rmtPStr string)
 {
     assert(string != NULL);
     return Buffer_Write(buffer, (void*)string, (rmtU32)strnlen_s(string, 2048));
 }
+*/
 
 static rmtError Buffer_WriteStringZ(Buffer* buffer, rmtPStr string)
 {
@@ -1721,7 +1723,7 @@ static rmtError Buffer_WriteU32(Buffer* buffer, rmtU32 value)
     return Buffer_Write(buffer, temp, sizeof(temp));
 }
 
-
+#if 0
 static rmtBool IsLittleEndian()
 {
     // Not storing this in a global variable allows the compiler to more easily optimise
@@ -1734,7 +1736,7 @@ static rmtBool IsLittleEndian()
     u.i = 1;
     return u.c[0] == 1 ? RMT_TRUE : RMT_FALSE;
 }
-
+#endif
 
 static rmtError Buffer_WriteU64(Buffer* buffer, rmtU64 value)
 {
@@ -1744,6 +1746,7 @@ static rmtError Buffer_WriteU64(Buffer* buffer, rmtU64 value)
         double d;
         unsigned char c[sizeof(double)];
     } u;
+#if 0
     char temp[8];
     u.d = (double)value;
     if (IsLittleEndian())
@@ -1768,6 +1771,7 @@ static rmtError Buffer_WriteU64(Buffer* buffer, rmtU64 value)
         temp[6] = u.c[1];
         temp[7] = u.c[0];
     }
+#endif
     return Buffer_Write(buffer, u.c, sizeof(u.c));
 }
 
@@ -1898,7 +1902,7 @@ static rmtError HashTable_Insert(HashTable* table, rmtU32 key, rmtU32 value)
 static rmtError HashTable_Resize(HashTable* table)
 {
     rmtU32 old_max_nb_slots = table->max_nb_slots;
-    rmtU32 new_nb_occupied_slots = 0;
+    // rmtU32 new_nb_occupied_slots = 0;
     HashSlot* new_slots = NULL;
     HashSlot* old_slots = table->slots;
 
